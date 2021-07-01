@@ -17,6 +17,7 @@ var link = 'https://api.scratch.mit.edu/studios/5842709/comments/?offset=' + Str
 			}
 		});
 	}	// return occurences
+	next()
 }(function() {
 	console.log(occurences);
 }))

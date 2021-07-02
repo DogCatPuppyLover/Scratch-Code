@@ -2,22 +2,32 @@ var user = prompt("Enter the username of the person");
 var pages = prompt('Enter the amount of pages you want to search')
 var occurences = 0;
 var count = 0;
-var offset = 0;
+var offset = -40;
 var link = 'https://api.scratch.mit.edu/studios/5842709/comments/?offset=' + String(offset) + '&limit=40';
-(function (next) {
-	for (let a = 0; a < pages; a ++) { // number of pages you want to search
-		$.getJSON(link, function(data) { // gets all the comments
-			offset += 40;
-			var link = 'https://api.scratch.mit.edu/studios/5842709/comments/?offset=' + String(offset) + '&limit=40';
-			for (let i = 0; i < 40; i++ ) { // for all comments on page
-				if (data[i].author.username == user) {
-					++occurences; // add one to the tally
-						
-				}
+function getPageJSON(a, link) {
+	$.getJSON(link, function(data) {
+		offset +=40;
+
+		// var link = 'https://api.scratch.mit.edu/studios/5842709/comments/?offset=' + String(offset) + '&limit=40';
+		for (let i = 0; i < 40; i ++) {
+			console.log(occurences);
+			if (data[i].author.username == user) {
+				++ occurences
 			}
-		});
-	}	// return occurences
+		}
+		console.log('comments since ' + String(data[39].datetime_created));
+	});
+}
+
+(function (next, t) {
+	setTimeout(function() {
+		for (let a = 0; a < pages; a ++) {
+			offset +=40;
+			var link = 'https://api.scratch.mit.edu/studios/5842709/comments/?offset=' + String(offset) + '&limit=40';
+			getPageJSON(a, link);
+		}
+
+	}, t * 5000);
 	next()
 }(function() {
-	console.log(occurences);
 }))

@@ -28,6 +28,6 @@ function getPageJSON(a, link) {
 		}
 
 	}, t * 5000);
-	next()
+	next() // this part isn't working but whatever
 }(function() {
 }))
